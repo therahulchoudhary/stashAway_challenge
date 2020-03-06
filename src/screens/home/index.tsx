@@ -1,26 +1,57 @@
-import React,{Component} from 'react';
-import {Text,View, StyleSheet} from 'react-native';
+import React,{Component, useEffect} from 'react';
+import {Text,View, StyleSheet, ScrollView} from 'react-native';
 import styles from './styles';
-import Heading from '../../components/HeadingComponent';
-import TextInputComponent from '../../components/TextInput'
-import ItemList from '../../components/ItemListComponent'
+import Icon from 'react-native-vector-icons/AntDesign';
+import TextInputComponent from '../../components/TextInput';
+import ItemList from '../../components/ItemListComponent';
 interface props{
 
 }
 
 interface state{
-
+    restaurentsData:any;
 }
 
+
+
 class Home extends Component<props,state>{
+    constructor(props: Readonly<props>){
+        super(props);
+        this.state ={
+            restaurentsData:[],
+        }
+    }
+    componentDidMount(){
+        this._loadData();
+    }
+    _loadData = () => {
+        fetch('http://starlord.hackerearth.com/TopRamen', {
+            method: 'GET'
+        })
+        .then((res) => res.json())
+        .then((responseJson) => {
+            responseJson.forEach((element:any) => {
+            });
+            this.setState({restaurentsData:responseJson});
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+    
     render(){
         return(
+            <>
+            <ScrollView>
             <View style={styles.container}>
                 <TextInputComponent placeholder="Search"/>
-                <Heading textValue="Read Me" fontSize={32} fontWeight="200" fontFamily="DidactGothic-Regular"/>
-                <Text style={styles.basicText}>This App is just a white app template to customize to work faster as compare to a scratch project. This App contains some basic components like input components with list items and all.To use all components according to our requirement.</Text>
-                <ItemList/>
+                <ItemList data={this.state.restaurentsData}/>
             </View>
+            </ScrollView>
+            <View style={styles.filterButton}>
+              <Icon name="filter" size={30}/>
+            </View>
+            </>
         );
     }
 }
