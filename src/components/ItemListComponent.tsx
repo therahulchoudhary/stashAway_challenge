@@ -29,17 +29,25 @@ class ItemListComponent extends Component<props,state>{
       <TouchableOpacity activeOpacity={1} onPress={()=>this._expand(index)}>
         <ImageBackground source={{uri:""}} style={{backgroundColor:AppConstants.colors[new UtilsFunction()._setColor(index==this.props.data.length-1?index:index+1)] }}>
           <View style={[styles.item,{backgroundColor: AppConstants.colors[new UtilsFunction()._setColor(index)]}]}>
-              <Text numberOfLines={2} style={styles.title}>{item.Variety}</Text>
+              {item['Top Ten']!="NaN"&&<View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                <Text style={{color:'white',fontFamily:'Montserrat-Medium'}}>{item["Top Ten"].split(" ")[0]}</Text>
+                <Text style={{color:'white',fontFamily:'Montserrat-Bold'}}>{item["Top Ten"].split(" ")[1]}</Text>
+              </View>}
+              <Text numberOfLines={(this.state.expandedItem == index && this.state.expand)?3:2} style={styles.title}>{item.Variety}</Text>
               <Text style={styles.varietyText}>{item.Brand}</Text>
-              <View style={styles.locationBar}>
-                <SimpleIcon color="white" name="location-pin" size={18}/>
-                <Text style={{color:'white',fontFamily:'Montserrat-Regular',paddingHorizontal:5,fontSize:16}}>{item.Country}</Text>
-              </View>
-              <View style={{position:'absolute',bottom:35,right:35,flexDirection:'row',borderRadius:50,padding:4,alignItems:'center',backgroundColor:AppConstants.secondaryColor[new UtilsFunction()._setColor(index)]}}>
-                <Icon name="star" color="white" size={15} style={{paddingHorizontal:5}}/>
-                <Text style={{color:'white',paddingRight:10}}>{item.Stars}</Text>
-              </View>
-              {(this.state.expandedItem == index && this.state.expand) && <Text style={{color:'white'}}>{'dgujhdf'}</Text>}
+              
+              {item.Stars !="NaN" &&<View style={{position:'absolute',bottom:35,right:35,flexDirection:'row',borderRadius:50,padding:4,alignItems:'center',backgroundColor:AppConstants.secondaryColor[new UtilsFunction()._setColor(index)]}}>
+             <Icon name="star" color="white" size={15} style={{paddingHorizontal:5}}/>
+                <Text style={{color:'white',paddingRight:10}}>{item.Stars =="NaN"?"NA":item.Stars}</Text>
+              </View>}
+              {(this.state.expandedItem == index && this.state.expand) && 
+              <View>
+                <View style={styles.locationBar}>
+                  <SimpleIcon color="white" name="location-pin" size={18}/>
+                  <Text style={{color:'white',fontFamily:'Montserrat-Regular',paddingHorizontal:5,fontSize:16}}>{item.Country}</Text>
+                </View>
+                <Text style={{color:'white',fontFamily:'Montserrat-Medium'}}>{item.Style}</Text>
+              </View>}
           </View>
         </ImageBackground>
       </TouchableOpacity>
@@ -47,7 +55,7 @@ class ItemListComponent extends Component<props,state>{
       
     }
     _expand = (index:number) => {
-      LayoutAnimation.configureNext( LayoutAnimation.Presets.spring );
+      LayoutAnimation.configureNext( LayoutAnimation.Presets.linear );
       let exp = this.state.expand?false:true;
       this.setState({expand:exp,expandedItem:index})
     }
@@ -72,18 +80,19 @@ const styles = StyleSheet.create({
     item: {
       borderBottomLeftRadius:70,
       paddingHorizontal:40,
-      paddingVertical:35
+      paddingVertical:35,
     },
     title: {
       color:'white',
       fontSize:22,
+      paddingVertical:5,
       fontFamily:'Montserrat-Bold',
     },
     rating: {
       flexDirection:'row',
       position:'absolute',
       right:35,
-      bottom:30,
+      bottom:20,
       padding:3,
       paddingHorizontal:8,
       borderRadius:50,

@@ -3,8 +3,8 @@ import React,{Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './src/screens/home';
+import SplashScreen from './src/screens/splash'
 import {Text, StatusBar,StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
 
 
 const Stack = createStackNavigator();
@@ -28,16 +28,16 @@ class App extends Component<props,state> {
               name="Home"
               component={Home}
               options={{
-                headerTitleStyle:{fontFamily:'AbrilFatface-Regular',fontSize:28},
+                headerTitleStyle:{fontFamily:'AbrilFatface-Regular',fontSize:28,paddingLeft:20},
                 headerStyle:styles.headerStyle,
                 headerTitle:'Stash Away',
-                headerTitleAlign:'center',
+                headerTitleAlign:'left',
                 // headerRight: () => (
                 //   <Icon name="filter" size={20} style={{marginHorizontal:20}}/>
                 // ),
-                // headerLeft: () => (
-                //   <Icon name="search1" size={20} style={{marginHorizontal:20}}/>
-                // )
+                headerLeft: () => (
+                  null
+                )
               }}
             />
         </Stack.Navigator>

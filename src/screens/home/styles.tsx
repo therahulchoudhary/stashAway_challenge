@@ -25,6 +25,15 @@ const styles = StyleSheet.create({
       borderRadius:60,
       right:35,
     },
+    locationBar: {
+        position:'absolute',
+        backgroundColor:'white',
+        top:-35,
+        right:20,
+        zIndex:9999,
+        flexDirection:'row',
+        alignItems:'center'
+    }
 });
 
 export default styles;
